@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evento Exclusivo en Directo</title>
+    <link rel="icon" type="image/x-icon" href="fotos/favicon1sorteo.jpg">
+    <style>
+        :root {
+            --color-dark: #0c1c2c;
+            --color-primary: #1a3a5f;
+            --color-secondary: #224870;
+            --color-accent: #c9a87c;
+            --color-accent-light: #dfcdb4;
+            --color-text: #333;
+            --color-text-light: #f9f9f9;
+            --color-background: #f4f6f9;
+            --color-card: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Playfair Display', 'Times New Roman', serif;
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--color-dark) 0%, var(--color-primary) 100%);
+            color: var(--color-text-light);
+            padding: 40px 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        header p {
+            font-size: 1.3rem;
+            font-weight: 400;
+            max-width: 800px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .logo {
+            margin-bottom: 20px;
+            color: var(--color-accent);
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+        
+        .main-content {
+            padding: 60px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .card {
+            background: var(--color-card);
+            border-radius: 8px;
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+        }
+        
+        .card h2 {
+            color: var(--color-primary);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .card h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background-color: var(--color-accent);
+        }
+        
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .countdown-box {
+            background: var(--color-background);
+            color: var(--color-primary);
+            border-radius: 8px;
+            padding: 20px 15px;
+            min-width: 120px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .countdown-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--color-dark);
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .countdown-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--color-primary);
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .prize-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .prize-description {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--color-text);
+            line-height: 1.8;
+        }
+        
+        .live-link {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark) 100%);
+            color: var(--color-text-light);
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 4px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 15px;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .live-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, var(--color-primary) 20%, var(--color-dark) 100%);
+        }
+        
+        .gold-accent {
+            color: var(--color-accent);
+            font-weight: 700;
+        }
+        
+        footer {
+            background: var(--color-dark);
+            color: var(--color-text-light);
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        footer p {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .footer-logo {
+            color: var(--color-accent);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            
+            header p {
+                font-size: 1.1rem;
+            }
+            
+            .countdown {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .countdown-box {
+                min-width: 80px;
+                padding: 15px 10px;
+            }
+            
+            .countdown-value {
+                font-size: 2rem;
+            }
+            
+            .countdown-label {
+                font-size: 0.7rem;
+            }
+            
+            .card {
+                padding: 30px 20px;
+            }
+            
+            .live-link {
+                padding: 14px 28px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">SORTEO</div>
+            <h1>GRAN SORTEO EN DIRECTO</h1>
+        </div>
+    </header>
+    
+    <section class="main-content">
+        <div class="container">
+            <div class="card">
+                <h2>COMIENZA EN</h2>
+                <div class="countdown" id="countdown">
+                    <div class="countdown-box">
+                        <div class="countdown-value" id="days">00</div>
+                        <div class="countdown-label">Días</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-value" id="hours">00</div>
+                        <div class="countdown-label">Horas</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-value" id="minutes">00</div>
+                        <div class="countdown-label">Minutos</div>
+                    </div>
+                    <div class="countdown-box">
+                        <div class="countdown-value" id="seconds">00</div>
+                        <div class="countdown-label">Segundos</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2><span class="gold-accent">PREMIO</span></h2>
+                <img src="fotos/AQUÍ IRA UNA FOTO DEL RATÓN QUE COMPREMOS.png" alt="Premio del sorteo" class="prize-image">
+                <p class="prize-description">Gana este gran <span class="gold-accent">RATÓN GAMER</span> perfecto para cualquier usuario.</p>
+            </div>
+            
+            <div class="card">
+                <h2>NO TE PIERDAS EL SORTEO</h2>
+                <p class="prize-description">No pierdas la oportunidad de poder ganar este gran ratón gamer.</p>
+                <a href="https://youtube.com/live/81_d5L-OAKk?feature=share" class="live-link" target="_blank">ACCEDER AL DIRECTO</a>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <p>© 2025 - Todos los derechos reservados</p>
+        </div>
+    </footer>
+    
+    <script>
+
+        const targetDate = new Date(2025, 2, 30, 18, 30, 0);
+        
+        function updateCountdown() {
+            const currentTime = new Date();
+            const difference = targetDate - currentTime;
+            
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            
+            if (difference < 0) {
+                clearInterval(timerInterval);
+                document.getElementById('countdown').innerHTML = '<h3 style="font-size: 1.8rem; color: var(--color-primary); margin: 20px 0;">EVENTO EN CURSO</h3>';
+            }
+        }
+        
+        updateCountdown();
+        const timerInterval = setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
